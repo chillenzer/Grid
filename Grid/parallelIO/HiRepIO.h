@@ -23,6 +23,7 @@ void endswap(T *objp) {
 
 struct HiRepHeaderData {
   int N_gauge = 0;
+  int x = 0;
 };
 class HiRepIO {
  public:
@@ -34,6 +35,7 @@ class HiRepIO {
     }
     HiRepHeaderData header;
     header.N_gauge = n_gauge;
+    header.x = 9;
     return header;
   };
 };

@@ -59,8 +59,17 @@ void test_reads_another_n_gauge_from_header() {
   assert(header.N_gauge == N_gauge);
 }
 
+void test_read_x_from_header() {
+  HeaderStreamGenerator stream_gen;
+  int x = 9;
+  stream_gen.n_x = x;
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  assert(header.x == x);
+}
+
 int main() {
   test_reads_n_gauge_from_header();
   test_reads_another_n_gauge_from_header();
+  test_read_x_from_header();
   return 0;
 }
