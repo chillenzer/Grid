@@ -23,19 +23,39 @@ void endswap(T *objp) {
 
 struct HiRepHeaderData {
   int N_gauge = 0;
+  int t = 0;
   int x = 0;
+  int y = 0;
+  int z = 0;
+  double Plaquette = 0.;
 };
+
 class HiRepIO {
  public:
   static HiRepHeaderData readHeader(std::stringstream stream) {
     int n_gauge;
+    int t;
+    int x;
+    int y;
+    int z;
+    double plaquette;
+
     stream.read(reinterpret_cast<char *>(&n_gauge), 4);
     if (system_endianess() == endianness::little) {
       endswap(&n_gauge);
+      //endswap(&n_t);
+      //endswap(&n_x);
+      //endswap(&n_y);
+      //endswap(&n_z);
+      //endswap(&plaquette);
     }
     HiRepHeaderData header;
     header.N_gauge = n_gauge;
-    header.x = 9;
+    header.t = t;
+    header.x = x;
+    header.y = y;
+    header.z = z;
+    header.plaquette = Plaquette;
     return header;
   };
 };
