@@ -47,7 +47,8 @@ void test_reads_n_gauge_from_header() {
   HeaderStreamGenerator stream_gen;
   int N_gauge = 11;
   stream_gen.n_gauge = N_gauge;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.N_gauge == N_gauge);
 }
 
@@ -55,7 +56,8 @@ void test_reads_another_n_gauge_from_header() {
   HeaderStreamGenerator stream_gen;
   int N_gauge = 12;
   stream_gen.n_gauge = N_gauge;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.N_gauge == N_gauge);
 }
 
@@ -63,7 +65,8 @@ void test_read_t_from_header() {
   HeaderStreamGenerator stream_gen;
   int t = 13;
   stream_gen.n_t = t;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.t == t);
 }
 
@@ -71,7 +74,8 @@ void test_read_another_t_from_header() {
   HeaderStreamGenerator stream_gen;
   int t = 14;
   stream_gen.n_t = t;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.t == t);
 }
 
@@ -79,7 +83,8 @@ void test_read_x_from_header() {
   HeaderStreamGenerator stream_gen;
   int x = 15;
   stream_gen.n_x = x;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.x == x);
 }
 
@@ -87,7 +92,8 @@ void test_read_another_x_from_header() {
   HeaderStreamGenerator stream_gen;
   int x = 16;
   stream_gen.n_x = x;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.x == x);
 }
 
@@ -95,7 +101,8 @@ void test_read_y_from_header() {
   HeaderStreamGenerator stream_gen;
   int y = 17;
   stream_gen.n_y = y;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.y == y);
 }
 
@@ -103,7 +110,8 @@ void test_read_another_y_from_header() {
   HeaderStreamGenerator stream_gen;
   int y = 18;
   stream_gen.n_y = y;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.y == y);
 }
 
@@ -111,7 +119,8 @@ void test_read_z_from_header() {
   HeaderStreamGenerator stream_gen;
   int z = 19;
   stream_gen.n_z = z;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.z == z);
 }
 
@@ -119,7 +128,8 @@ void test_read_another_z_from_header() {
   HeaderStreamGenerator stream_gen;
   int z = 20;
   stream_gen.n_z = z;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.z == z);
 }
 
@@ -127,7 +137,8 @@ void test_read_plaquette_from_header() {
   HeaderStreamGenerator stream_gen;
   double Plaquette = 21.;
   stream_gen.plaquette = Plaquette;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.plaquette == Plaquette);
 }
 
@@ -135,7 +146,8 @@ void test_read_another_plaquette_from_header() {
   HeaderStreamGenerator stream_gen;
   double Plaquette = 22.;
   stream_gen.plaquette = Plaquette;
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream_gen());
+  std::stringstream stream = stream_gen();
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header.plaquette == Plaquette);
 }
 
@@ -153,5 +165,6 @@ int main() {
   test_read_plaquette_from_header();
   test_read_another_plaquette_from_header();
 
+  std::cout << "Success!\n";
   return 0;
 }
