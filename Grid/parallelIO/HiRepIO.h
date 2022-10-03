@@ -1,5 +1,7 @@
 #include <sstream>
 
+#include "Grid/Grid.h"
+
 namespace Grid {
 enum class endianness {
   little = 0,
@@ -53,5 +55,18 @@ class HiRepIO {
     }
     return storage;
   }
+
+ public:
+  static Grid::FieldMetaData convertHeader(HiRepHeaderData headerdata) {
+   FieldMetaData metadata;
+   //metadata.dimension[3] = 5;
+   metadata.dimension[3] = headerdata.t;
+   metadata.dimension[0] = headerdata.x;
+   metadata.dimension[1] = headerdata.y;
+   metadata.dimension[2] = headerdata.z;
+   
+   return metadata;
+  }
 };
+
 }  // namespace Grid

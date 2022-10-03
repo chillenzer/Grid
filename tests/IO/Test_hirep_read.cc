@@ -5,6 +5,8 @@
 #include <sstream>
 
 #include "Grid/parallelIO/HiRepIO.h"
+#include "Grid/Grid.h"
+
 struct HeaderStreamGenerator {
   uint32_t n_gauge = 0;
   uint32_t n_t = 0;
@@ -151,6 +153,38 @@ void test_read_another_plaquette_from_header() {
   assert(header.plaquette == Plaquette);
 }
 
+void test_t_in_metadata(){
+int t = 5;
+Grid::HiRepHeaderData headerdata;
+headerdata.t = t;
+Grid::FieldMetaData header = Grid::HiRepIO::convertHeader(headerdata);
+assert(header.dimension[3] == t);
+}
+
+void test_x_in_metadata(){
+int x = 6;
+Grid::HiRepHeaderData headerdata;
+headerdata.x = x;
+Grid::FieldMetaData header = Grid::HiRepIO::convertHeader(headerdata);
+assert(header.dimension[0] == x);
+}
+
+void test_y_in_metadata(){
+int y = 7;
+Grid::HiRepHeaderData headerdata;
+headerdata.y = y;
+Grid::FieldMetaData header = Grid::HiRepIO::convertHeader(headerdata);
+assert(header.dimension[1] == y);
+}
+
+void test_z_in_metadata(){
+int z = 8;
+Grid::HiRepHeaderData headerdata;
+headerdata.z = z;
+Grid::FieldMetaData header = Grid::HiRepIO::convertHeader(headerdata);
+assert(header.dimension[2] == z);
+}
+
 int main() {
   test_reads_n_gauge_from_header();
   test_reads_another_n_gauge_from_header();
@@ -164,6 +198,10 @@ int main() {
   test_read_another_z_from_header();
   test_read_plaquette_from_header();
   test_read_another_plaquette_from_header();
+  test_t_in_metadata();
+  test_x_in_metadata();
+  test_y_in_metadata();
+  test_z_in_metadata();
 
   std::cout << "Success!\n";
   return 0;
