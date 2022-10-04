@@ -185,6 +185,14 @@ Grid::FieldMetaData header = Grid::HiRepIO::convertHeader(headerdata);
 assert(header.dimension[2] == z);
 }
 
+void test_plaquette_in_metadata(){
+int plaquette = 11.;
+Grid::HiRepHeaderData headerdata;
+headerdata.plaquette = plaquette;
+Grid::FieldMetaData header = Grid::HiRepIO::convertHeader(headerdata);
+assert(header.plaquette == plaquette);
+}
+
 int main() {
   test_reads_n_gauge_from_header();
   test_reads_another_n_gauge_from_header();
@@ -202,6 +210,7 @@ int main() {
   test_x_in_metadata();
   test_y_in_metadata();
   test_z_in_metadata();
+  test_plaquette_in_metadata();
 
   std::cout << "Success!\n";
   return 0;

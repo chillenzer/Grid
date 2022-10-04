@@ -64,7 +64,7 @@ class HiRepIO {
    metadata.dimension[0] = headerdata.x;
    metadata.dimension[1] = headerdata.y;
    metadata.dimension[2] = headerdata.z;
-   
+   metadata.plaquette = headerdata.plaquette;
    return metadata;
   }
 };
