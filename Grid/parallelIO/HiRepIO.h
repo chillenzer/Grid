@@ -77,14 +77,14 @@ class HiRepIO {
   }
 
  public:
-  static Grid::FieldMetaData convertHeader(HiRepHeaderData headerdata) {
+  static FieldMetaData convertHeader(HiRepHeaderData headerdata) {
     FieldMetaData metadata;
     fill_with_defaults(metadata);
     metadata.dimension[3] = headerdata.t;
     metadata.dimension[0] = headerdata.x;
     metadata.dimension[1] = headerdata.y;
     metadata.dimension[2] = headerdata.z;
-
+    metadata.plaquette = headerdata.plaquette;
     return metadata;
   }
 };
