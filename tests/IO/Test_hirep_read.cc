@@ -185,6 +185,40 @@ void test_z_in_metadata() {
   assert(header.dimension[2] == z);
 }
 
+void test_fieldmetadata_has_correct_defaults() {
+  Grid::FieldMetaData header =
+      Grid::HiRepIO::convertHeader(Grid::HiRepHeaderData());
+  assert(header.nd == 4);
+  assert(header.hdr_version == "");
+  // TODO: What is a reasonable default here?
+  // assert(header.datatype == "");
+  // It should indicate the theory, e.g. 4D_SU3_GAUGE_3x3
+  assert(header.storage_format == "");
+  assert(header.boundary[0] == "PERIODIC");
+  assert(header.boundary[1] == "PERIODIC");
+  assert(header.boundary[2] == "PERIODIC");
+  assert(header.boundary[3] == "PERIODIC");
+  assert(header.scidac_checksuma == 0);
+  assert(header.scidac_checksumb == 0);
+  assert(header.ensemble_id == "unknown (import from HiRep)");
+  assert(header.ensemble_label == "unknown (import from HiRep)");
+  assert(header.sequence_number == 1);
+  assert(header.creator == "unknown (import from HiRep)");
+  assert(header.creator_hardware == "unknown (import from HiRep)");
+  assert(header.creation_date == "unknown (import from HiRep)");
+  assert(header.archive_date == "unknown (import from HiRep)");
+  assert(header.floating_point == "IEEE64BIG");
+}
+
+// TODO:
+void test_checksum_gets_computed() { assert(false); }
+
+// TODO:
+void test_link_trace_gets_computed() { assert(false); }
+
+// TODO:
+void test_n_gauge_gets_checked() { assert(false); }
+
 int main() {
   test_reads_n_gauge_from_header();
   test_reads_another_n_gauge_from_header();
@@ -202,6 +236,7 @@ int main() {
   test_x_in_metadata();
   test_y_in_metadata();
   test_z_in_metadata();
+  test_fieldmetadata_has_correct_defaults();
 
   std::cout << "Success!\n";
   return 0;

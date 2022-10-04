@@ -56,9 +56,30 @@ class HiRepIO {
     return storage;
   }
 
+  static void fill_with_defaults(FieldMetaData &metadata) {
+    std::fill(metadata.boundary.begin(), metadata.boundary.end(), "PERIODIC");
+    metadata.nd = 4;
+    metadata.hdr_version = "";
+    // TODO: What is a reasonable default here?
+    // metadata.datatype = "";
+    // It should indicate the theory, e.g. 4D_SU3_GAUGE_3x3
+    metadata.storage_format = "";
+    metadata.scidac_checksuma = 0;
+    metadata.scidac_checksumb = 0;
+    metadata.ensemble_id = "unknown (import from HiRep)";
+    metadata.ensemble_label = "unknown (import from HiRep)";
+    metadata.sequence_number = 1;
+    metadata.creator = "unknown (import from HiRep)";
+    metadata.creator_hardware = "unknown (import from HiRep)";
+    metadata.creation_date = "unknown (import from HiRep)";
+    metadata.archive_date = "unknown (import from HiRep)";
+    metadata.floating_point = "IEEE64BIG";
+  }
+
  public:
   static Grid::FieldMetaData convertHeader(HiRepHeaderData headerdata) {
     FieldMetaData metadata;
+    fill_with_defaults(metadata);
     metadata.dimension[3] = headerdata.t;
     metadata.dimension[0] = headerdata.x;
     metadata.dimension[1] = headerdata.y;
