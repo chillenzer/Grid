@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cstdint>
+#include <exception>
 #include <iostream>
 #include <sstream>
 
@@ -205,8 +206,20 @@ void test_checksum_gets_computed() { assert(false); }
 // TODO:
 void test_link_trace_gets_computed() { assert(false); }
 
-// TODO:
-void test_n_gauge_gets_checked() { assert(false); }
+void test_n_gauge_gets_checked() {
+  int n_gauge = Config_Nc + 1;  // just to be different from Config_Nc
+  HeaderStreamGenerator stream_gen;
+  stream_gen.n_gauge = n_gauge;
+  std::stringstream stream = stream_gen();
+
+  bool found_exception = false;
+  try {
+    Grid::HiRepIO::readHeader(stream);
+  } catch (std::exception& e) {
+    found_exception = true;
+  }
+  assert(found_exception);
+}
 
 void test_plaquette_in_metadata() {
   int plaquette = 11.;
@@ -235,6 +248,7 @@ int main() {
   test_z_in_metadata();
   test_fieldmetadata_has_correct_defaults();
   test_plaquette_in_metadata();
+  test_n_gauge_gets_checked();
 
   std::cout << "Success!\n";
   return 0;
