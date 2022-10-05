@@ -42,7 +42,10 @@ class HiRepIO {
     header.y = read_with_correct_endianess<int>(stream);
     header.z = read_with_correct_endianess<int>(stream);
     header.plaquette = read_with_correct_endianess<double>(stream);
-    return header;
+    if(header.N_gauge != Config_Nc){
+      throw std::runtime_error("N_gauge is not configured as expected.");
+    }
+    return header; 
   };
 
  private:
@@ -88,5 +91,4 @@ class HiRepIO {
     return metadata;
   }
 };
-
 }  // namespace Grid

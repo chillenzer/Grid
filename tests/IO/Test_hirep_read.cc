@@ -9,7 +9,7 @@
 #include "Grid/parallelIO/HiRepIO.h"
 
 struct HeaderStreamGenerator {
-  uint32_t n_gauge = 0;
+  uint32_t n_gauge = Config_Nc;
   uint32_t n_t = 0;
   uint32_t n_x = 0;
   uint32_t n_y = 0;
@@ -71,13 +71,7 @@ class ReadHeaderFixture {
         plaquette(stream_gen.plaquette) {}
 
   void test_read_n_gauge_from_header() {
-    n_gauge = 11;
-    run_readHeader();
-    assert(header.N_gauge == n_gauge);
-  }
-
-  void test_read_another_n_gauge_from_header() {
-    n_gauge = 12;
+    n_gauge = Config_Nc;
     run_readHeader();
     assert(header.N_gauge == n_gauge);
   }
@@ -214,12 +208,11 @@ void test_checksum_gets_computed() { assert(false); }
 // TODO:
 void test_link_trace_gets_computed() { assert(false); }
 
-void test_n_gauge_gets_checked() {
+void test_n_gauge_gets_checked() { //Safeguard!!!
   int n_gauge = Config_Nc + 1;  // just to be different from Config_Nc
   HeaderStreamGenerator stream_gen;
   stream_gen.n_gauge = n_gauge;
   std::stringstream stream = stream_gen();
-
   bool found_exception = false;
   try {
     Grid::HiRepIO::readHeader(stream);
@@ -231,7 +224,6 @@ void test_n_gauge_gets_checked() {
 
 int main() {
   ReadHeaderFixture().test_read_n_gauge_from_header();
-  ReadHeaderFixture().test_read_another_n_gauge_from_header();
   ReadHeaderFixture().test_read_t_from_header();
   ReadHeaderFixture().test_read_another_t_from_header();
   ReadHeaderFixture().test_read_x_from_header();
