@@ -175,6 +175,14 @@ void test_z_in_metadata() {
   assert(header.dimension[2] == z);
 }
 
+void test_plaquette_in_metadata() {
+  int plaquette = 11.;
+  Grid::HiRepHeaderData headerdata;
+  headerdata.plaquette = plaquette;
+  Grid::FieldMetaData header = Grid::HiRepIO::convertHeader(headerdata);
+  assert(header.plaquette == plaquette);
+}
+
 void test_fieldmetadata_has_correct_defaults() {
   Grid::FieldMetaData header =
       Grid::HiRepIO::convertHeader(Grid::HiRepHeaderData());
@@ -219,14 +227,6 @@ void test_n_gauge_gets_checked() {
     found_exception = true;
   }
   assert(found_exception);
-}
-
-void test_plaquette_in_metadata() {
-  int plaquette = 11.;
-  Grid::HiRepHeaderData headerdata;
-  headerdata.plaquette = plaquette;
-  Grid::FieldMetaData header = Grid::HiRepIO::convertHeader(headerdata);
-  assert(header.plaquette == plaquette);
 }
 
 int main() {
