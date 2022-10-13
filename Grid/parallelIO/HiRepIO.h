@@ -1,4 +1,6 @@
-#include <sstream>
+#include <istream>
+#include <fstream>
+#include <cmath>
 
 #include "Grid/Grid.h"
 
@@ -32,15 +34,21 @@ struct HiRepHeaderData {
   int z = 0;
 
   bool operator==(const HiRepHeaderData &rhs) {
-    return ((plaquette == rhs.plaquette) and (N_gauge == rhs.N_gauge) and
+    return ((abs(plaquette - rhs.plaquette)<1.e-9) and (N_gauge == rhs.N_gauge) and
             (t == rhs.t) and (x == rhs.x) and (y == rhs.y) and (z == rhs.z));
   }
 };
 
 class HiRepIO {
  public:
-  static HiRepHeaderData readHeader(const std::string &filename) {}
-  static HiRepHeaderData readHeader(std::stringstream &stream) {
+  static HiRepHeaderData readHeader(const std::string &filename) {
+    HiRepHeaderData header;
+    std::ifstream stream(filename, std::ios::binary);
+    header = Grid::HiRepIO::readHeader(stream);
+    return header;
+  }
+
+  static HiRepHeaderData readHeader(std::istream &stream) {
     HiRepHeaderData header;
     header.N_gauge = read_with_correct_endianess<int>(stream);
     header.t = read_with_correct_endianess<int>(stream);
@@ -56,7 +64,7 @@ class HiRepIO {
 
  private:
   template <typename T>
-  static T read_with_correct_endianess(std::stringstream &stream) {
+  static T read_with_correct_endianess(std::istream &stream) {
     T storage;
     stream.read(reinterpret_cast<char *>(&storage), sizeof(T));
     if (system_endianess() == endianness::little) {
