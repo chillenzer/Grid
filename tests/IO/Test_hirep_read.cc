@@ -208,8 +208,8 @@ void test_checksum_gets_computed() { assert(false); }
 // TODO:
 void test_link_trace_gets_computed() { assert(false); }
 
-void test_n_gauge_gets_checked() { //Safeguard!!!
-  int n_gauge = Config_Nc + 1;  // just to be different from Config_Nc
+void test_n_gauge_gets_checked() {  // Safeguard!!!
+  int n_gauge = Config_Nc + 1;      // just to be different from Config_Nc
   HeaderStreamGenerator stream_gen;
   stream_gen.n_gauge = n_gauge;
   std::stringstream stream = stream_gen();
@@ -220,6 +220,13 @@ void test_n_gauge_gets_checked() { //Safeguard!!!
     found_exception = true;
   }
   assert(found_exception);
+}
+
+void test_read_header_from_real_hirep_file() {
+  std::string filename("run1_4x4x4x4nc2rADJnf2b2.250000m0.500000n10");
+  Grid::HiRepHeaderData expected_header({0.51419654, 2, 4, 4, 4, 4});
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(filename);
+  assert(header == expected_header);
 }
 
 int main() {
@@ -241,6 +248,7 @@ int main() {
   test_fieldmetadata_has_correct_defaults();
   test_plaquette_in_metadata();
   test_n_gauge_gets_checked();
+  test_read_header_from_real_hirep_file();
 
   std::cout << "Success!\n";
   return 0;

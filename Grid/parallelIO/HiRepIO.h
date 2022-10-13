@@ -30,10 +30,16 @@ struct HiRepHeaderData {
   int x = 0;
   int y = 0;
   int z = 0;
+
+  bool operator==(const HiRepHeaderData &rhs) {
+    return ((plaquette == rhs.plaquette) and (N_gauge == rhs.N_gauge) and
+            (t == rhs.t) and (x == rhs.x) and (y == rhs.y) and (z == rhs.z));
+  }
 };
 
 class HiRepIO {
  public:
+  static HiRepHeaderData readHeader(const std::string &filename) {}
   static HiRepHeaderData readHeader(std::stringstream &stream) {
     HiRepHeaderData header;
     header.N_gauge = read_with_correct_endianess<int>(stream);
@@ -42,10 +48,10 @@ class HiRepIO {
     header.y = read_with_correct_endianess<int>(stream);
     header.z = read_with_correct_endianess<int>(stream);
     header.plaquette = read_with_correct_endianess<double>(stream);
-    if(header.N_gauge != Config_Nc){
+    if (header.N_gauge != Config_Nc) {
       throw std::runtime_error("N_gauge is not configured as expected.");
     }
-    return header; 
+    return header;
   };
 
  private:
