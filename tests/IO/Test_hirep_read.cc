@@ -222,7 +222,7 @@ void test_n_gauge_gets_checked() {  // Safeguard!!!
   assert(found_exception);
 }
 
-void test_read_header_from_dummy_hirep_file() {
+void test_read_header_fails_for_non_existent_file() {
   std::string filename("Non-existentFile");
   bool found_exception = false;
   try {
@@ -269,7 +269,7 @@ int main() {
   test_plaquette_in_metadata();
   test_n_gauge_gets_checked();
   test_read_header_from_real_hirep_file();
-  test_read_header_from_dummy_hirep_file();
+  test_read_header_fails_for_non_existent_file();
   test_write_header_to_hirep();
 
   std::cout << "Success!\n";
