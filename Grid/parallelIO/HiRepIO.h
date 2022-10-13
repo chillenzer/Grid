@@ -42,10 +42,11 @@ struct HiRepHeaderData {
 class HiRepIO {
  public:
   static HiRepHeaderData readHeader(const std::string &filename) {
-    HiRepHeaderData header;
     std::ifstream stream(filename, std::ios::binary);
-    header = Grid::HiRepIO::readHeader(stream);
-    return header;
+    if (not stream.is_open()) {
+      throw std::runtime_error("Danger! This file does not exist.");
+    }
+    return Grid::HiRepIO::readHeader(stream);
   }
 
   static HiRepHeaderData readHeader(std::istream &stream) {
