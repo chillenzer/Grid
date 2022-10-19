@@ -222,7 +222,7 @@ void test_n_gauge_gets_checked() {  // Safeguard!!!
   assert(found_exception);
 }
 
-void test_read_header_from_dummy_hirep_file() {
+void test_read_header_fails_for_non_existent_file() {
   std::string filename("Non-existentFile");
   bool found_exception = false;
   try {
@@ -234,9 +234,18 @@ void test_read_header_from_dummy_hirep_file() {
 }
 
 void test_read_header_from_real_hirep_file() {
-  std::string filename("run1_4x4x4x4nc2rADJnf2b2.250000m0.500000n10"); 
+  std::string filename("run1_4x4x4x4nc2rADJnf2b2.250000m0.500000n10");
   Grid::HiRepHeaderData expected_header({0.51419654, 2, 4, 4, 4, 4});
   Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(filename);
+  assert(header == expected_header);
+}
+
+void test_write_header_to_hirep() {
+  Grid::HiRepHeaderData expected_header({0.51419654, 2, 4, 4, 4, 4});
+  std::stringstream stream;
+  Grid::HiRepIO::writeHeader(stream, expected_header);
+  stream.seekp(0);
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(stream);
   assert(header == expected_header);
 }
 
@@ -260,7 +269,8 @@ int main() {
   test_plaquette_in_metadata();
   test_n_gauge_gets_checked();
   test_read_header_from_real_hirep_file();
-  test_read_header_from_dummy_hirep_file();
+  test_read_header_fails_for_non_existent_file();
+  test_write_header_to_hirep();
 
   std::cout << "Success!\n";
   return 0;
