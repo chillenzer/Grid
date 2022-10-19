@@ -63,6 +63,12 @@ class HiRepIO {
     return header;
   };
 
+  static void writeHeader (std::ostream &stream, const HiRepHeaderData &header) {
+
+
+
+  }
+
  private:
   template <typename T>
   static T read_with_correct_endianess(std::istream &stream) {
