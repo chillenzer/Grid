@@ -1,7 +1,6 @@
 #include <istream>
 #include <fstream>
 #include <cmath>
-
 #include "Grid/Grid.h"
 
 namespace Grid {
@@ -63,10 +62,13 @@ class HiRepIO {
     return header;
   };
 
-  static void writeHeader (std::ostream &stream, const HiRepHeaderData &header) {
-
-
-
+  static void writeHeader(std::ostream &stream, const HiRepHeaderData &header) {
+    write_with_correct_endianess(stream, header.N_gauge);
+    write_with_correct_endianess(stream, header.t);
+    write_with_correct_endianess(stream, header.x);
+    write_with_correct_endianess(stream, header.y);
+    write_with_correct_endianess(stream, header.z);
+    write_with_correct_endianess(stream, header.plaquette);
   }
 
  private:
@@ -78,6 +80,14 @@ class HiRepIO {
       endswap(&storage);
     }
     return storage;
+  }
+
+  template <typename T>
+  static void write_with_correct_endianess(std::ostream &stream, T value) {
+    if (system_endianess() == endianness::little) {
+      endswap(&value);
+    }
+    stream.write(reinterpret_cast<char *>(&value), sizeof(T));
   }
 
   static void fill_with_defaults(FieldMetaData &metadata) {
