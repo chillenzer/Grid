@@ -4,6 +4,7 @@
 #include <exception>
 #include <iostream>
 #include <sstream>
+#include <cstdio>
 
 #include "Grid/Grid.h"
 #include "Grid/parallelIO/HiRepIO.h"
@@ -249,6 +250,15 @@ void test_write_header_to_hirep() {
   assert(header == expected_header);
 }
 
+void test_work_with_real_files() {
+  std::string filename("ABCDEFG"); // It can be any name.
+  Grid::HiRepHeaderData expected_header({0.51419654, 2, 4, 4, 4, 4});
+  Grid::HiRepIO::writeHeader(filename, expected_header);
+  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(filename);
+  assert(header == expected_header);
+  assert(std::remove(filename.data())); // delete file
+}
+
 int main() {
   ReadHeaderFixture().test_read_n_gauge_from_header();
   ReadHeaderFixture().test_read_t_from_header();
@@ -271,6 +281,7 @@ int main() {
   test_read_header_from_real_hirep_file();
   test_read_header_fails_for_non_existent_file();
   test_write_header_to_hirep();
+  test_work_with_real_files();
 
   std::cout << "Success!\n";
   return 0;
