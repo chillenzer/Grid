@@ -71,6 +71,14 @@ class HiRepIO {
     write_with_correct_endianess(stream, header.plaquette);
   }
 
+  static void writeHeader(const std::string &filename, const HiRepHeaderData &header) {
+    std::ofstream stream(filename, std::ios::binary);
+    if (not stream.is_open()) {
+      throw std::runtime_error("Danger! This file does not exist.");
+    }
+    Grid::HiRepIO::writeHeader(stream, header);
+  }
+
  private:
   template <typename T>
   static T read_with_correct_endianess(std::istream &stream) {

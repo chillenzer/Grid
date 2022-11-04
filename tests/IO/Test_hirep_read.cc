@@ -251,12 +251,12 @@ void test_write_header_to_hirep() {
 }
 
 void test_work_with_real_files() {
-  std::string filename("ABCDEFG"); // It can be any name.
+  std::string filename("HiGrid");
   Grid::HiRepHeaderData expected_header({0.51419654, 2, 4, 4, 4, 4});
   Grid::HiRepIO::writeHeader(filename, expected_header);
   Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(filename);
   assert(header == expected_header);
-  assert(std::remove(filename.data())); // delete file
+  assert(0 == std::remove(filename.data()));
 }
 
 int main() {
