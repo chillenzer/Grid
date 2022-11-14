@@ -79,6 +79,10 @@ class HiRepIO {
     Grid::HiRepIO::writeHeader(stream, header);
   }
 
+  static void readConfiguration(){
+
+  }
+
  private:
   template <typename T>
   static T read_with_correct_endianess(std::istream &stream) {

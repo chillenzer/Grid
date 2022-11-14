@@ -259,6 +259,17 @@ void test_work_with_real_files() {
   assert(0 == std::remove(filename.data()));
 }
 
+void test_read_gauge_configuration() { // To be done
+  Grid::Coordinate simd_layout = Grid::GridDefaultSimd(4,Grid::vComplex::Nsimd());
+  Grid::Coordinate mpi_layout  = Grid::GridDefaultMpi();
+  Grid::Coordinate latt_size  ({1,1,1,1});
+  Grid::GridCartesian grid(latt_size,simd_layout,mpi_layout);
+  Grid::LatticeGaugeField Umu(&grid);
+  Grid::HiRepIO::readConfiguration(Umu, header, stream);
+
+  assert(Umu == expected_Umu);
+}
+
 int main() {
   ReadHeaderFixture().test_read_n_gauge_from_header();
   ReadHeaderFixture().test_read_t_from_header();
@@ -282,6 +293,7 @@ int main() {
   test_read_header_fails_for_non_existent_file();
   test_write_header_to_hirep();
   test_work_with_real_files();
+  test_read_gauge_configuration();
 
   std::cout << "Success!\n";
   return 0;
