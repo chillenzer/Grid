@@ -260,14 +260,17 @@ void test_work_with_real_files() {
 }
 
 void test_read_gauge_configuration() { // To be done
-  Grid::Coordinate simd_layout = Grid::GridDefaultSimd(4,Grid::vComplex::Nsimd());
-  Grid::Coordinate mpi_layout  = Grid::GridDefaultMpi();
-  Grid::Coordinate latt_size  ({1,1,1,1});
-  Grid::GridCartesian grid(latt_size,simd_layout,mpi_layout);
+  Grid::Coordinate simd_layout = Grid::GridDefaultSimd(4, Grid::vComplex::Nsimd());
+  Grid::Coordinate mpi_layout = Grid::GridDefaultMpi();
+  Grid::Coordinate latt_size({4,4,4,4});
+  Grid::GridCartesian grid(latt_size, simd_layout, mpi_layout);
   Grid::LatticeGaugeField Umu(&grid);
+  Grid::HiRepHeaderData header({0.0, 2, latt_size[0], latt_size[1], latt_size[2], latt_size[3]});
+  std::stringstream stream;
   Grid::HiRepIO::readConfiguration(Umu, header, stream);
-
-  assert(Umu == expected_Umu);
+  Grid::LatticeGaugeField expected_Umu = Umu;
+  Grid::LatticeGaugeField Umu_diff = Umu - expected_Umu;
+  assert(Grid::norm2(Umu_diff));
 }
 
 int main() {

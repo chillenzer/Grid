@@ -79,8 +79,8 @@ class HiRepIO {
     Grid::HiRepIO::writeHeader(stream, header);
   }
 
-  static void readConfiguration(){
-
+  static void readConfiguration(Grid::LatticeGaugeField &Umu, const HiRepHeaderData &header, std::istream &stream){
+    
   }
 
  private:
