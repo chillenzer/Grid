@@ -242,7 +242,7 @@ void test_read_header_from_real_hirep_file() {
 }
 
 void test_write_header_to_hirep() {
-  Grid::HiRepHeaderData expected_header({0.51419654, 2, 4, 4, 4, 4});
+  Grid::HiRepHeaderData expected_header({0.51419654, Config_Nc, 4, 4, 4, 4});
   std::stringstream stream;
   Grid::HiRepIO::writeHeader(stream, expected_header);
   stream.seekp(0);
@@ -252,7 +252,7 @@ void test_write_header_to_hirep() {
 
 void test_work_with_real_files() {
   std::string filename("HiGrid");
-  Grid::HiRepHeaderData expected_header({0.51419654, 2, 4, 4, 4, 4});
+  Grid::HiRepHeaderData expected_header({0.51419654, Config_Nc, 4, 4, 4, 4});
   Grid::HiRepIO::writeHeader(filename, expected_header);
   Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(filename);
   assert(header == expected_header);
