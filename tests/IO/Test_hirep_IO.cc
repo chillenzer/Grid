@@ -1,10 +1,10 @@
 #include <algorithm>
 #include <cassert>
 #include <cstdint>
+#include <cstdio>
 #include <exception>
 #include <iostream>
 #include <sstream>
-#include <cstdio>
 
 #include "Grid/Grid.h"
 #include "Grid/parallelIO/HiRepIO.h"
@@ -259,13 +259,15 @@ void test_work_with_real_files() {
   assert(0 == std::remove(filename.data()));
 }
 
-void test_read_gauge_configuration() { // To be done
-  Grid::Coordinate simd_layout = Grid::GridDefaultSimd(4, Grid::vComplex::Nsimd());
+void test_read_gauge_configuration() {  // To be done
+  Grid::Coordinate simd_layout =
+      Grid::GridDefaultSimd(4, Grid::vComplex::Nsimd());
   Grid::Coordinate mpi_layout = Grid::GridDefaultMpi();
-  Grid::Coordinate latt_size({4,4,4,4});
+  Grid::Coordinate latt_size({4, 4, 4, 4});
   Grid::GridCartesian grid(latt_size, simd_layout, mpi_layout);
   Grid::LatticeGaugeField Umu(&grid);
-  Grid::HiRepHeaderData header({0.0, 2, latt_size[0], latt_size[1], latt_size[2], latt_size[3]});
+  Grid::HiRepHeaderData header(
+      {0.0, 2, latt_size[0], latt_size[1], latt_size[2], latt_size[3]});
   std::stringstream stream;
   Grid::HiRepIO::readConfiguration(Umu, header, stream);
   Grid::LatticeGaugeField expected_Umu = Umu;
