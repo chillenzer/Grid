@@ -234,13 +234,6 @@ void test_read_header_fails_for_non_existent_file() {
   assert(found_exception);
 }
 
-void test_read_header_from_real_hirep_file() {
-  std::string filename("run1_4x4x4x4nc2rADJnf2b2.250000m0.500000n10");
-  Grid::HiRepHeaderData expected_header({0.51419654, 2, 4, 4, 4, 4});
-  Grid::HiRepHeaderData header = Grid::HiRepIO::readHeader(filename);
-  assert(header == expected_header);
-}
-
 void test_write_header_to_hirep() {
   Grid::HiRepHeaderData expected_header({0.51419654, Config_Nc, 4, 4, 4, 4});
   std::stringstream stream;
@@ -263,7 +256,7 @@ void test_read_gauge_configuration() {  // To be done
   Grid::Coordinate simd_layout =
       Grid::GridDefaultSimd(4, Grid::vComplex::Nsimd());
   Grid::Coordinate mpi_layout = Grid::GridDefaultMpi();
-  Grid::Coordinate latt_size({4, 4, 4, 4});
+  Grid::Coordinate latt_size({2, 2, 2, 2});
   Grid::GridCartesian grid(latt_size, simd_layout, mpi_layout);
   Grid::LatticeGaugeField Umu(&grid);
   Grid::HiRepHeaderData header(
@@ -272,10 +265,12 @@ void test_read_gauge_configuration() {  // To be done
   Grid::HiRepIO::readConfiguration(Umu, header, stream);
   Grid::LatticeGaugeField expected_Umu = Umu;
   Grid::LatticeGaugeField Umu_diff = Umu - expected_Umu;
-  assert(Grid::norm2(Umu_diff));
+  assert(Grid::norm2(Umu_diff) < 1.e-10);
 }
 
-int main() {
+int main(int argc, char** argv) {
+  Grid::Grid_init(&argc, &argv);
+
   ReadHeaderFixture().test_read_n_gauge_from_header();
   ReadHeaderFixture().test_read_t_from_header();
   ReadHeaderFixture().test_read_another_t_from_header();
@@ -294,7 +289,6 @@ int main() {
   test_fieldmetadata_has_correct_defaults();
   test_plaquette_in_metadata();
   test_n_gauge_gets_checked();
-  test_read_header_from_real_hirep_file();
   test_read_header_fails_for_non_existent_file();
   test_write_header_to_hirep();
   test_work_with_real_files();
