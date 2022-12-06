@@ -261,7 +261,8 @@ void test_read_gauge_configuration() {  // To be done
   Grid::LatticeGaugeField Umu(&grid), expected_Umu(&grid);
   Grid::SU<Config_Nc>::ColdConfiguration(expected_Umu);
 
-  std::stringstream stream;
+  const std::string filename("test_read_gauge_configuration_data.dat");
+  std::ofstream stream(filename);
   const std::vector<double> matrix_content({1., 0., 0., 0., 0., 0., 1., 0.});
   for (int latt_index = 0; latt_index < 16; ++latt_index) {
     for (int i = 0; i < 4; ++i) {
@@ -269,10 +270,10 @@ void test_read_gauge_configuration() {  // To be done
                    matrix_content.size() * sizeof(double));
     }
   }
-  stream.seekp(0);
+  stream.close();
   const Grid::HiRepHeaderData header(
       {0.0, 2, latt_size[0], latt_size[1], latt_size[2], latt_size[3]});
-  Grid::HiRepIO::readConfiguration(Umu, header, stream);
+  Grid::HiRepIO::readConfiguration(Umu, header, filename);
   Grid::LatticeGaugeField Umu_diff = Umu - expected_Umu;
   assert(Grid::norm2(Umu_diff) < 1.e-10);
 }

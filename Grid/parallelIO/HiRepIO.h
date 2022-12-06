@@ -84,7 +84,14 @@ class HiRepIO {
 
   static void readConfiguration(Grid::LatticeGaugeField &Umu,
                                 const HiRepHeaderData &header,
-                                const std::string &filename) {}
+                                const std::string &filename) {
+    std::string format("IEEE32BIG");
+    uint32_t nersc_csum, scidac_csuma, scidac_csumb;
+    using namespace Grid;
+    BinaryIO::readLatticeObject<vLorentzColourMatrixD, LorentzColour2x3F>(
+        Umu, filename, Gauge3x2munger<LorentzColour2x3F, LorentzColourMatrix>(), 0,
+        format, nersc_csum, scidac_csuma, scidac_csumb);
+  }
 
  private:
   template <typename T>
