@@ -1,6 +1,7 @@
-#include <istream>
-#include <fstream>
 #include <cmath>
+#include <fstream>
+#include <istream>
+
 #include "Grid/Grid.h"
 
 namespace Grid {
@@ -33,8 +34,9 @@ struct HiRepHeaderData {
   int z = 0;
 
   bool operator==(const HiRepHeaderData &rhs) {
-    return ((abs(plaquette - rhs.plaquette)<1.e-9) and (N_gauge == rhs.N_gauge) and
-            (t == rhs.t) and (x == rhs.x) and (y == rhs.y) and (z == rhs.z));
+    return ((abs(plaquette - rhs.plaquette) < 1.e-9) and
+            (N_gauge == rhs.N_gauge) and (t == rhs.t) and (x == rhs.x) and
+            (y == rhs.y) and (z == rhs.z));
   }
 };
 
@@ -71,7 +73,8 @@ class HiRepIO {
     write_with_correct_endianess(stream, header.plaquette);
   }
 
-  static void writeHeader(const std::string &filename, const HiRepHeaderData &header) {
+  static void writeHeader(const std::string &filename,
+                          const HiRepHeaderData &header) {
     std::ofstream stream(filename, std::ios::binary);
     if (not stream.is_open()) {
       throw std::runtime_error("Danger! This file does not exist.");
@@ -79,9 +82,9 @@ class HiRepIO {
     Grid::HiRepIO::writeHeader(stream, header);
   }
 
-  static void readConfiguration(Grid::LatticeGaugeField &Umu, const HiRepHeaderData &header, std::istream &stream){
-    
-  }
+  static void readConfiguration(Grid::LatticeGaugeField &Umu,
+                                const HiRepHeaderData &header,
+                                const std::string &filename) {}
 
  private:
   template <typename T>
